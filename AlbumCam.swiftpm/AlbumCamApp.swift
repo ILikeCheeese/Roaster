@@ -1,14 +1,14 @@
 //
-//  RoasterApp.swift
-//  Roaster
+//  AlbumCamApp.swift
+//  AlbumCam
 //
-//  Entry point for the Roaster camera app.
+//  Entry point for the AlbumCam camera app.
 //
 
 import SwiftUI
 
 @main
-struct RoasterApp: App {
+struct AlbumCamApp: App {
     var body: some Scene {
         WindowGroup {
             RootView()

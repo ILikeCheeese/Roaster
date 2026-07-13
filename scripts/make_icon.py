@@ -205,7 +205,7 @@ def render(aligned=False):
 
 def main():
     base = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    icon = os.path.join(base, "Roaster.swiftpm", "Assets.xcassets",
+    icon = os.path.join(base, "AlbumCam.swiftpm", "Assets.xcassets",
                         "AppIcon.appiconset", "AppIcon.png")
     render(aligned=False).save(icon)
     print("wrote", icon)

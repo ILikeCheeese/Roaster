@@ -34,7 +34,7 @@ final class PhotoLibraryService: ObservableObject {
     }
     @Published var lastSaveMessage: String?
 
-    private let defaultsKey = "roaster.selectedAlbumID"
+    private let defaultsKey = "albumcam.selectedAlbumID"
 
     init() {
         selectedAlbumID = UserDefaults.standard.string(forKey: defaultsKey)
@@ -191,5 +191,36 @@ final class PhotoLibraryService: ObservableObject {
         PHAssetCollection.fetchAssetCollections(
             withLocalIdentifiers: [id], options: nil
         ).firstObject
+    }
+
+    // MARK: - Thumbnails
+
+    /// Loads the newest photo in an album as a small cover thumbnail.
+    func loadThumbnail(for albumID: String, size: CGFloat,
+                       completion: @escaping (UIImage?) -> Void) {
+        DispatchQueue.global(qos: .userInitiated).async {
+            guard let collection = PHAssetCollection.fetchAssetCollections(
+                withLocalIdentifiers: [albumID], options: nil).firstObject else {
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            let options = PHFetchOptions()
+            options.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            options.fetchLimit = 1
+            guard let asset = PHAsset.fetchAssets(in: collection, options: options).firstObject else {
+                DispatchQueue.main.async { completion(nil) }
+                return
+            }
+            let request = PHImageRequestOptions()
+            request.deliveryMode = .opportunistic
+            request.resizeMode = .fast
+            request.isNetworkAccessAllowed = true
+            let target = CGSize(width: size * 3, height: size * 3)   // ~@3x
+            PHImageManager.default().requestImage(
+                for: asset, targetSize: target, contentMode: .aspectFill, options: request
+            ) { image, _ in
+                DispatchQueue.main.async { completion(image) }
+            }
+        }
     }
 }

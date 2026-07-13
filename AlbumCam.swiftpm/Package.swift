@@ -7,15 +7,15 @@ import PackageDescription
 import AppleProductTypes
 
 let package = Package(
-    name: "Roaster",
+    name: "AlbumCam",
     platforms: [
         .iOS("17.0")
     ],
     products: [
         .iOSApplication(
-            name: "Roaster",
+            name: "AlbumCam",
             targets: ["AppModule"],
-            bundleIdentifier: "com.roaster.Roaster",
+            bundleIdentifier: "com.albumcam.AlbumCam",
             teamIdentifier: "",
             displayVersion: "1.0",
             bundleVersion: "1",
@@ -29,8 +29,8 @@ let package = Package(
                 .portrait
             ],
             capabilities: [
-                .camera(purposeString: "Roaster needs camera access to take photos."),
-                .photoLibrary(purposeString: "Roaster needs photo library access to list your albums and save the photos you take into them.")
+                .camera(purposeString: "AlbumCam needs camera access to take photos."),
+                .photoLibrary(purposeString: "AlbumCam needs photo library access to list your albums and save the photos you take into them.")
             ],
             appCategory: .photoAndVideo
         )

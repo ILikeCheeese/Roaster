@@ -13,8 +13,8 @@ import SwiftUI
 
 /// Single place to change the app's display name / tagline.
 enum AppInfo {
-    static let name = "Roaster"
-    static let tagline = "Every shot, in orbit."
+    static let name = "AlbumCam"
+    static let tagline = "Straight to your album."
 }
 
 struct SplashView: View {
