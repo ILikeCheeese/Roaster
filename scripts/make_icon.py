@@ -15,18 +15,20 @@ BG_TOP = (10, 12, 22)
 BG_EDGE = (3, 4, 9)
 
 # (name, orbit fraction, display radius fraction, base color, detail key)
+# Planets are enlarged (vs. true scale) so they read on a Home Screen icon.
 PLANETS = [
-    ("mercury", 0.128, 0.011, (150, 141, 130), None),
-    ("venus",   0.170, 0.019, (222, 190, 128), None),
-    ("earth",   0.213, 0.021, (56, 110, 200), "earth"),
-    ("mars",    0.256, 0.016, (188, 78, 42), None),
-    ("jupiter", 0.312, 0.038, (201, 165, 120), "jupiter"),
-    ("saturn",  0.372, 0.031, (223, 201, 158), "saturn"),
-    ("uranus",  0.420, 0.024, (168, 220, 224), None),
-    ("neptune", 0.462, 0.024, (58, 92, 205), "neptune"),
+    ("mercury", 0.105, 0.018, (150, 141, 130), None),
+    ("venus",   0.150, 0.028, (222, 190, 128), None),
+    ("earth",   0.200, 0.032, (56, 110, 200), "earth"),
+    ("mars",    0.250, 0.024, (188, 78, 42), None),
+    ("jupiter", 0.315, 0.052, (201, 165, 120), "jupiter"),
+    ("saturn",  0.385, 0.044, (223, 201, 158), "saturn"),
+    ("uranus",  0.430, 0.034, (168, 220, 224), None),
+    ("neptune", 0.462, 0.034, (58, 92, 205), "neptune"),
 ]
-# starting angles (degrees) for the orbital arrangement
-ANGLES = [-50, 150, 25, -120, 68, -20, 200, 110]
+# Angles (degrees) chosen so the big outer planets sit near mid-edges, not
+# the corners the icon mask clips.
+ANGLES = [-40, 150, 35, -110, 70, -15, 205, 95]
 
 
 def clamp(v): return max(0, min(255, int(v)))
@@ -129,8 +131,8 @@ def background():
 def draw_sun(img, cx, cy, r):
     glow = Image.new("RGBA", img.size, (0, 0, 0, 0))
     gd = ImageDraw.Draw(glow)
-    gd.ellipse([cx-r*3, cy-r*3, cx+r*3, cy+r*3], fill=(255, 150, 40, 90))
-    gd.ellipse([cx-r*1.8, cy-r*1.8, cx+r*1.8, cy+r*1.8], fill=(255, 180, 70, 130))
+    gd.ellipse([cx-r*2.3, cy-r*2.3, cx+r*2.3, cy+r*2.3], fill=(255, 150, 40, 70))
+    gd.ellipse([cx-r*1.5, cy-r*1.5, cx+r*1.5, cy+r*1.5], fill=(255, 180, 70, 110))
     glow = glow.filter(ImageFilter.GaussianBlur(r*0.5))
     img.paste(glow, (0, 0), glow)
     d = ImageDraw.Draw(img)
@@ -176,7 +178,7 @@ def render(aligned=False):
     cx = cy = N/2
     if aligned:
         cx = N*0.5
-    sun_r = N*0.072
+    sun_r = N*0.052
     # planets behind sun drawn first is fine; draw sun, then planets
     draw_sun(img, cx, cy, sun_r)
     for i, (name, orb, pr, base, det) in enumerate(PLANETS):

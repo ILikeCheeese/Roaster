@@ -31,16 +31,18 @@ struct RGB {
 }
 
 enum Solar {
-    /// Order + colors match the icon generator.
+    /// Order + colors match the icon generator. Sizes here favour realistic
+    /// *proportions* (gas giants dominate) for the launch animation, rather
+    /// than the enlarged planets used in the Home Screen icon.
     static let planets: [PlanetSpec] = [
-        PlanetSpec(name: "Mercury", orbit: 0.128, radius: 0.011, base: RGB(r: 150, g: 141, b: 130), hasRing: false),
-        PlanetSpec(name: "Venus",   orbit: 0.170, radius: 0.019, base: RGB(r: 222, g: 190, b: 128), hasRing: false),
-        PlanetSpec(name: "Earth",   orbit: 0.213, radius: 0.021, base: RGB(r: 56,  g: 110, b: 200), hasRing: false),
-        PlanetSpec(name: "Mars",    orbit: 0.256, radius: 0.016, base: RGB(r: 188, g: 78,  b: 42),  hasRing: false),
-        PlanetSpec(name: "Jupiter", orbit: 0.312, radius: 0.038, base: RGB(r: 201, g: 165, b: 120), hasRing: false),
-        PlanetSpec(name: "Saturn",  orbit: 0.372, radius: 0.031, base: RGB(r: 223, g: 201, b: 158), hasRing: true),
-        PlanetSpec(name: "Uranus",  orbit: 0.420, radius: 0.024, base: RGB(r: 168, g: 220, b: 224), hasRing: false),
-        PlanetSpec(name: "Neptune", orbit: 0.462, radius: 0.024, base: RGB(r: 58,  g: 92,  b: 205), hasRing: false),
+        PlanetSpec(name: "Mercury", orbit: 0.128, radius: 0.010, base: RGB(r: 150, g: 141, b: 130), hasRing: false),
+        PlanetSpec(name: "Venus",   orbit: 0.170, radius: 0.015, base: RGB(r: 222, g: 190, b: 128), hasRing: false),
+        PlanetSpec(name: "Earth",   orbit: 0.213, radius: 0.016, base: RGB(r: 56,  g: 110, b: 200), hasRing: false),
+        PlanetSpec(name: "Mars",    orbit: 0.256, radius: 0.011, base: RGB(r: 188, g: 78,  b: 42),  hasRing: false),
+        PlanetSpec(name: "Jupiter", orbit: 0.320, radius: 0.044, base: RGB(r: 201, g: 165, b: 120), hasRing: false),
+        PlanetSpec(name: "Saturn",  orbit: 0.392, radius: 0.037, base: RGB(r: 223, g: 201, b: 158), hasRing: true),
+        PlanetSpec(name: "Uranus",  orbit: 0.440, radius: 0.026, base: RGB(r: 168, g: 220, b: 224), hasRing: false),
+        PlanetSpec(name: "Neptune", orbit: 0.480, radius: 0.025, base: RGB(r: 58,  g: 92,  b: 205), hasRing: false),
     ]
 
     /// Accent colors surfaced to the rest of the UI.
