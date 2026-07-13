@@ -25,3 +25,7 @@ scripts/logo-preview.png
 
 # Scratch / design exploration
 scratch/
+
+# Python
+__pycache__/
+*.pyc
