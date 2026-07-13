@@ -25,7 +25,9 @@ final class CameraManager: NSObject, ObservableObject {
     @Published var flashMode: AVCaptureDevice.FlashMode = .auto
     @Published var cameraPosition: AVCaptureDevice.Position = .back
     @Published var isCapturing = false
-    @Published var zoomFactor: CGFloat = 1.0
+    /// Zoom as shown to the user (0.5, 1, 2 …), like the Camera app.
+    @Published var displayZoom: CGFloat = 1.0
+    @Published var minDisplayZoom: CGFloat = 1.0
     @Published var showCapturePulse = false
     /// Most recently captured still, handed to the save layer.
     @Published var lastCapturedImage: UIImage?
@@ -36,9 +38,6 @@ final class CameraManager: NSObject, ObservableObject {
     private let sessionQueue = DispatchQueue(label: "com.roaster.sessionQueue")
     private let photoOutput = AVCapturePhotoOutput()
     private var videoDeviceInput: AVCaptureDeviceInput?
-
-    private var minZoom: CGFloat = 1.0
-    private var maxZoom: CGFloat = 5.0
 
     /// Callback fired on the main actor when a photo finishes processing.
     var onPhotoCaptured: ((UIImage) -> Void)?
@@ -111,20 +110,34 @@ final class CameraManager: NSObject, ObservableObject {
         session.addInput(input)
         videoDeviceInput = input
 
+        // Start at 1.0× (the wide lens). On a dual-wide device the wide lens
+        // sits at the switch-over factor; below it is the 0.5× ultra-wide.
+        let switchOver = Self.switchOverFactor(for: device)
+        do {
+            try device.lockForConfiguration()
+            device.videoZoomFactor = switchOver
+            device.unlockForConfiguration()
+        } catch { }
+        let minDisplay = device.minAvailableVideoZoomFactor / switchOver
+
         Task { @MainActor in
             self.cameraPosition = position
-            self.minZoom = device.minAvailableVideoZoomFactor
-            self.maxZoom = min(device.maxAvailableVideoZoomFactor, 8.0)
-            self.zoomFactor = device.videoZoomFactor
+            self.minDisplayZoom = minDisplay
+            self.displayZoom = 1.0
         }
     }
 
+    /// The raw zoom factor that corresponds to the user-facing "1.0×".
+    private static func switchOverFactor(for device: AVCaptureDevice) -> CGFloat {
+        device.virtualDeviceSwitchOverVideoZoomFactors.first
+            .map { CGFloat(truncating: $0) } ?? 1.0
+    }
+
     private static func bestDevice(for position: AVCaptureDevice.Position) -> AVCaptureDevice? {
-        let types: [AVCaptureDevice.DeviceType] = [
-            .builtInDualCamera,
-            .builtInWideAngleCamera,
-            .builtInTrueDepthCamera
-        ]
+        // Back: prefer the dual-wide virtual device so 0.5× is available.
+        let types: [AVCaptureDevice.DeviceType] = position == .back
+            ? [.builtInDualWideCamera, .builtInWideAngleCamera]
+            : [.builtInWideAngleCamera, .builtInTrueDepthCamera]
         let discovery = AVCaptureDevice.DiscoverySession(
             deviceTypes: types,
             mediaType: .video,
@@ -174,16 +187,26 @@ final class CameraManager: NSObject, ObservableObject {
         }
     }
 
-    /// Applies a pinch zoom, clamped to the active device's range.
-    func setZoom(_ factor: CGFloat) {
-        let clamped = max(minZoom, min(factor, maxZoom))
+    /// Lens presets to offer, matching the device's fixed focal lengths:
+    /// 0.5×/1× on iPhone 14's dual-wide back camera, 1× on the front.
+    var zoomPresets: [CGFloat] {
+        minDisplayZoom <= 0.5 ? [0.5, 1.0] : [1.0]
+    }
+
+    /// Sets zoom from the user-facing value (0.5, 1, 2 …), converting to the
+    /// device's raw factor via the lens switch-over point.
+    func setDisplayZoom(_ display: CGFloat) {
         sessionQueue.async { [weak self] in
             guard let self, let device = self.videoDeviceInput?.device else { return }
+            let switchOver = Self.switchOverFactor(for: device)
+            let maxFactor = min(device.maxAvailableVideoZoomFactor, 8.0 * switchOver)
+            let clamped = max(device.minAvailableVideoZoomFactor,
+                              min(display * switchOver, maxFactor))
             do {
                 try device.lockForConfiguration()
                 device.videoZoomFactor = clamped
                 device.unlockForConfiguration()
-                Task { @MainActor in self.zoomFactor = clamped }
+                Task { @MainActor in self.displayZoom = clamped / switchOver }
             } catch { }
         }
     }

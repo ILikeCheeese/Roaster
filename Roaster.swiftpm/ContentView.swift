@@ -66,7 +66,7 @@ struct ContentView: View {
                         camera.focus(at: devicePoint)
                         showFocus(at: layerPoint)
                     },
-                    onPinch: { scale in camera.setZoom(camera.zoomFactor * scale) }
+                    onPinch: { scale in camera.setDisplayZoom(camera.displayZoom * scale) }
                 )
                 .ignoresSafeArea()
 
@@ -170,22 +170,29 @@ struct ContentView: View {
 
     private var zoomBar: some View {
         HStack(spacing: 10) {
-            zoomButton(1.0, "1×")
-            zoomButton(2.0, "2×")
+            ForEach(camera.zoomPresets, id: \.self) { preset in
+                zoomButton(preset)
+            }
         }
     }
 
-    private func zoomButton(_ factor: CGFloat, _ label: String) -> some View {
-        let active = abs(camera.zoomFactor - factor) < 0.06
+    private func zoomButton(_ preset: CGFloat) -> some View {
+        let active = abs(camera.displayZoom - preset) < 0.06
         return Button {
-            camera.setZoom(factor)
+            camera.setDisplayZoom(preset)
         } label: {
-            Text(active ? String(format: "%.1f×", camera.zoomFactor) : label)
+            Text(zoomLabel(active ? camera.displayZoom : preset))
                 .font(.caption.weight(.bold).monospacedDigit())
                 .foregroundStyle(active ? accent : .white)
                 .frame(minWidth: 46, minHeight: 34)
                 .background(.black.opacity(active ? 0.55 : 0.3), in: Capsule())
         }
+    }
+
+    /// "0.5×" below 1×, whole numbers as "1×", others as "1.5×".
+    private func zoomLabel(_ z: CGFloat) -> String {
+        if z < 1 { return String(format: "%.1f×", z) }
+        return z == z.rounded() ? String(format: "%.0f×", z) : String(format: "%.1f×", z)
     }
 
     // MARK: - Bottom bar
