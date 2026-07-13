@@ -22,3 +22,6 @@ Package.resolved
 Pods/
 Carthage/Build/
 scripts/logo-preview.png
+
+# Scratch / design exploration
+scratch/
