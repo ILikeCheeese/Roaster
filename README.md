@@ -26,7 +26,9 @@ an **iPad** (Swift Playgrounds) *or* a **Mac** (Xcode) — no `.xcodeproj` neede
 ```
 Roaster.swiftpm/            ← open this in Swift Playgrounds or Xcode
 ├── Package.swift           App metadata, icon, accent color, capabilities
-├── RoasterApp.swift        App entry point
+├── RoasterApp.swift        App entry point + splash→camera root
+├── SplashView.swift        Orbit→align launch animation + app name
+├── SolarSystem.swift       Reusable solar-system view (sun, orbits, planets)
 ├── ContentView.swift       Main camera screen + all on-screen controls
 ├── CameraManager.swift     AVFoundation session: capture/flip/flash/zoom/focus
 ├── CameraPreview.swift     Preview layer + pinch/tap gestures
@@ -57,10 +59,19 @@ Open `Roaster.swiftpm` directly in **Xcode 15+**, set your signing Team, pick a
 connected device, and press **Run**. (A real device is required — the Simulator
 has no camera.)
 
-## Branding
+## Branding & launch animation
 
-The app icon is a camera **aperture** in a warm amber→orange gradient on
-charcoal, matching the app's yellow accent. Regenerate it any time with:
+The identity is a **realistic 8-planet solar system** — the sun doubles as
+the lens, the orbit rings echo lens rings, and the planets add color. On
+launch, `SplashView` orbits the planets and then eases them into a **perfect
+line** (a planetary alignment) before revealing the camera.
+
+- `SolarSystem.swift` — the reusable solar-system view (sun, orbits, shaded
+  planet spheres, Saturn's ring). Its palette mirrors the icon generator.
+- `SplashView.swift` — the orbit→align animation and wordmark.
+- App name/tagline live in `AppInfo` (in `SplashView.swift`) for easy edits.
+
+Regenerate the app icon any time with:
 
 ```
 python3 scripts/make_icon.py
