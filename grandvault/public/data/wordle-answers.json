@@ -1,0 +1,24 @@
+{
+  "note": "Ordered list of 5-letter daily words. Index 0 = the word for the epoch date in wordle.ts. To make GrandVault's daily code line up EXACTLY with the real NYT Wordle answers, replace this array with the official ordered Wordle solution list (widely mirrored online) and set 'epoch' in wordle.ts to 2021-06-19. Until then the app uses this built-in list, which works fully offline and forever.",
+  "epochHint": "2021-06-19",
+  "words": [
+    "cigar", "rebut", "sissy", "humph", "awake", "blush", "focal", "evade", "naval", "serve",
+    "heath", "dwarf", "model", "karma", "stink", "grade", "quiet", "bench", "abate", "feign",
+    "major", "death", "fresh", "crust", "stool", "colon", "abase", "marry", "react", "batty",
+    "pride", "floss", "helix", "croak", "staff", "paper", "unfed", "whelp", "trawl", "outdo",
+    "adobe", "crazy", "sower", "repay", "digit", "crate", "cluck", "spike", "mimic", "pound",
+    "maxim", "linen", "unmet", "flesh", "booby", "forth", "first", "stand", "belly", "ivory",
+    "seedy", "print", "yearn", "drain", "bribe", "stout", "panel", "crass", "flume", "offal",
+    "agree", "error", "swirl", "argue", "bleed", "delta", "flick", "totem", "wooer", "front",
+    "shrub", "parry", "biome", "lapel", "start", "greet", "goner", "golem", "lusty", "loopy",
+    "round", "audit", "lying", "gamma", "labor", "islet", "civic", "forge", "corny", "moult",
+    "basic", "salad", "agate", "spicy", "spray", "essay", "fjord", "spend", "kebab", "guild",
+    "aback", "motor", "alone", "hatch", "hyper", "thumb", "dowry", "ought", "belch", "dutch",
+    "pilot", "tweed", "comet", "jaunt", "enema", "steed", "abyss", "growl", "fling", "dozen",
+    "boozy", "erode", "world", "gouge", "click", "briar", "great", "altar", "pulpy", "blurt",
+    "coast", "duchy", "groin", "fixer", "group", "rogue", "badly", "smart", "pithy", "gaudy",
+    "chill", "heron", "vodka", "finer", "surer", "radio", "rouge", "perch", "retch", "wrote",
+    "clock", "tilde", "store", "prove", "bring", "solar", "fined", "billy", "eater", "trend",
+    "vodka", "handy", "sugar", "olive", "amber", "quilt", "ready", "north", "chair", "table"
+  ]
+}

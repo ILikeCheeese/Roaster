@@ -1,0 +1,13 @@
+node_modules/
+dist/
+
+# Large offline assets fetched by scripts/fetch-assets.mjs — not committed.
+public/models/
+public/tessdata/
+public/tesseract/
+public/pdf/
+public/ort/
+
+*.log
+.DS_Store
+tsconfig.tsbuildinfo

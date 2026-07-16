@@ -1,0 +1,239 @@
+/*
+ * GrandVault design system — built for older eyes and hands.
+ * Principles: large type, very high contrast, generous spacing, big hit targets
+ * (>=56px), calm colors, and no tiny/ambiguous controls.
+ */
+
+:root {
+  /* Type scale — deliberately large. Base is 20px, not 16px. */
+  --font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --fs-base: 1.25rem;   /* 20px */
+  --fs-lg: 1.6rem;      /* ~26px */
+  --fs-xl: 2.2rem;      /* ~35px */
+  --fs-xxl: 3rem;       /* 48px */
+  --fs-sm: 1.05rem;     /* ~17px, smallest allowed */
+
+  /* Palette — deep calm green + warm neutrals, AA/AAA contrast on text. */
+  --bg: #f4f1ea;
+  --surface: #ffffff;
+  --surface-2: #efeada;
+  --ink: #1a1a17;         /* near-black body text on light bg */
+  --ink-soft: #4a4a44;
+  --brand: #0b3d2e;       /* deep green */
+  --brand-ink: #ffffff;
+  --accent: #1d6f52;
+  --accent-strong: #14543d;
+  --danger: #8a1c1c;
+  --warn: #8a5a00;
+  --line: #d8d2c4;
+  --focus: #1763b6;
+
+  --radius: 16px;
+  --radius-lg: 22px;
+  --gap: 20px;
+  --hit: 56px;            /* minimum interactive height */
+  --shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 30px rgba(0, 0, 0, 0.14);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font);
+  font-size: var(--fs-base);
+  line-height: 1.5;
+  color: var(--ink);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  /* Anti-copy: block text selection app-wide. Inputs re-enable it below. */
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;   /* stop iOS long-press "save image" menu */
+}
+
+input,
+textarea,
+select,
+[contenteditable="true"] {
+  -webkit-user-select: text;
+  user-select: text;
+}
+
+h1 {
+  font-size: var(--fs-xxl);
+  line-height: 1.15;
+  margin: 0 0 0.4em;
+}
+h2 {
+  font-size: var(--fs-xl);
+  margin: 0 0 0.4em;
+}
+h3 {
+  font-size: var(--fs-lg);
+  margin: 0 0 0.3em;
+}
+
+/* Every interactive element is big and obvious. */
+button,
+.btn {
+  font-family: inherit;
+  font-size: var(--fs-lg);
+  font-weight: 700;
+  min-height: var(--hit);
+  padding: 12px 24px;
+  border-radius: var(--radius);
+  border: 3px solid transparent;
+  background: var(--surface);
+  color: var(--ink);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  box-shadow: var(--shadow);
+  transition: transform 0.05s ease, background 0.15s ease, box-shadow 0.15s ease;
+}
+button:active,
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn-primary {
+  background: var(--brand);
+  color: var(--brand-ink);
+}
+.btn-accent {
+  background: var(--accent);
+  color: #fff;
+}
+.btn-danger {
+  background: var(--danger);
+  color: #fff;
+}
+.btn-ghost {
+  background: var(--surface);
+  border-color: var(--line);
+}
+.btn-block {
+  width: 100%;
+}
+
+/* Visible, thick focus ring for keyboard users. */
+:focus-visible {
+  outline: 4px solid var(--focus);
+  outline-offset: 3px;
+}
+
+a {
+  color: var(--accent-strong);
+  font-weight: 700;
+}
+
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: var(--fs-base);
+  min-height: var(--hit);
+  width: 100%;
+  padding: 12px 16px;
+  border: 3px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--ink);
+}
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--focus);
+  outline: none;
+}
+label {
+  display: block;
+  font-weight: 700;
+  font-size: var(--fs-base);
+  margin: 0 0 8px;
+}
+.field {
+  margin-bottom: var(--gap);
+}
+.hint {
+  font-size: var(--fs-sm);
+  color: var(--ink-soft);
+  margin-top: 6px;
+}
+
+.card {
+  background: var(--surface);
+  border: 2px solid var(--line);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow);
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.row {
+  display: flex;
+  gap: var(--gap);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.grid {
+  display: grid;
+  gap: var(--gap);
+}
+.stack > * + * {
+  margin-top: var(--gap);
+}
+
+.badge {
+  display: inline-block;
+  font-size: var(--fs-sm);
+  font-weight: 700;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--surface-2);
+  color: var(--ink);
+  border: 2px solid var(--line);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* Document images are drawn to <canvas>; block dragging just in case. */
+canvas,
+img {
+  -webkit-user-drag: none;
+  user-drag: none;
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
