@@ -14,4 +14,4 @@ tsconfig.tsbuildinfo
 
 # Packed portable app (regenerated via npm run pack)
 GrandVault-App/
-GrandVault-App.zip
+GrandVault-App*.zip
