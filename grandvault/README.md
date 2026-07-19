@@ -46,6 +46,19 @@ npm run typecheck
 The offline model/OCR assets under `public/{models,tessdata,tesseract,ort,pdf}` are large
 and are **not** committed — regenerate them with `npm run assets`.
 
+## Ship it as a double-click app
+
+```bash
+npm run pack        # builds + assembles the portable GrandVault-App/ folder (~110 MB)
+```
+
+`GrandVault-App/` contains the whole app, all offline assets, and dependency-free
+launchers — **`Start GrandVault.bat`** / **`Add Desktop Icon.bat`** (Windows, PowerShell)
+and **`Start GrandVault.command`** (macOS). Double-clicking opens it in an app window with
+OCR + smart search fully working, offline. See [SETUP.md](./SETUP.md). (Opening the raw
+`index.html` via `file://` can't run the AI — browsers block it — which is why the tiny
+local launcher exists.)
+
 ## Verification
 
 The full pipeline is verified end-to-end in a headless browser (offline): AI loads

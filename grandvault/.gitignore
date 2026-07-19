@@ -11,3 +11,7 @@ public/ort/
 *.log
 .DS_Store
 tsconfig.tsbuildinfo
+
+# Packed portable app (regenerated via npm run pack)
+GrandVault-App/
+GrandVault-App.zip

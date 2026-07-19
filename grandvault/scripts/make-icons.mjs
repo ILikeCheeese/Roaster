@@ -102,3 +102,31 @@ function crc32(buf) {
 writeFileSync(path.join(OUT, 'icon-192.png'), png(192));
 writeFileSync(path.join(OUT, 'icon-512.png'), png(512));
 console.log('Wrote public/icons/icon-192.png and icon-512.png');
+
+// Also emit a Windows .ico (PNG-compressed entries at 256/48/32) for the
+// desktop shortcut. Consumed by scripts/pack-app.mjs.
+function ico(sizes) {
+  const images = sizes.map((s) => ({ size: s, data: png(s) }));
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0); // reserved
+  header.writeUInt16LE(1, 2); // type: icon
+  header.writeUInt16LE(images.length, 4);
+  const entries = [];
+  let offset = 6 + images.length * 16;
+  for (const img of images) {
+    const e = Buffer.alloc(16);
+    e[0] = img.size >= 256 ? 0 : img.size; // width (0 = 256)
+    e[1] = img.size >= 256 ? 0 : img.size; // height
+    e[2] = 0; // palette
+    e[3] = 0; // reserved
+    e.writeUInt16LE(1, 4); // color planes
+    e.writeUInt16LE(32, 6); // bits per pixel
+    e.writeUInt32LE(img.data.length, 8);
+    e.writeUInt32LE(offset, 12);
+    offset += img.data.length;
+    entries.push(e);
+  }
+  return Buffer.concat([header, ...entries, ...images.map((i) => i.data)]);
+}
+writeFileSync(path.join(OUT, 'grandvault.ico'), ico([256, 48, 32]));
+console.log('Wrote public/icons/grandvault.ico');

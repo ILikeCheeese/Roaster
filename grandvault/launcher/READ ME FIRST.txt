@@ -1,0 +1,32 @@
+GRANDVAULT — how to open it
+============================
+
+GrandVault runs entirely on this computer. It never uses the internet and none
+of your papers ever leave this device.
+
+WINDOWS
+-------
+1. Double-click  "Start GrandVault.bat"  to open GrandVault.
+   (A small window titled "GrandVault (keep open - close to quit)" appears —
+    leave it alone while you use the app. Closing it quits GrandVault.)
+
+2. To get an icon on your Desktop, double-click  "Add Desktop Icon.bat"  once.
+   Then you can open GrandVault any time from the Desktop icon, and you can
+   right-click that icon and choose "Pin to taskbar".
+
+   The first time, Windows may show a blue "Windows protected your PC" box.
+   Click "More info" -> "Run anyway". (This is normal for a local app.)
+
+MAC
+---
+1. Double-click  "Start GrandVault.command"  to open GrandVault.
+   The first time, macOS may say it's from an unidentified developer:
+   right-click the file -> "Open" -> "Open".
+   (If it won't run, open Terminal and type:  chmod +x "Start GrandVault.command")
+
+2. To keep it handy, drag  "Start GrandVault.command"  onto your Dock, or make
+   an alias on the Desktop (right-click -> "Make Alias").
+
+Close the little server window (Windows) or Terminal window (Mac) to quit.
+
+Family setup notes are in SETUP.md.
